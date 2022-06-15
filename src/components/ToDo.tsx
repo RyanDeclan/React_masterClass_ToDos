@@ -3,9 +3,12 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Categories, IToDo, toDoState } from "../atoms";
 
 function ToDo({ text, category, id }: IToDo) {
-
   const rawToDos = useRecoilValue(toDoState);
-  let setToDos = useSetRecoilState(toDoState);
+  const setToDos = useSetRecoilState(toDoState);
+
+
+  // < Delete 버튼 누르면 삭제 >
+  
   const ClickDelete = (event: React.MouseEvent<HTMLButtonElement>) =>{
     const {
       currentTarget: { id },
@@ -14,23 +17,20 @@ function ToDo({ text, category, id }: IToDo) {
     setToDos((oldToDos) => {
       const targetIndex = oldToDos.findIndex((toDo) => toDo.id === +id);
       
-      if(oldToDos.length === 1){
-        localStorage.removeItem('TODOS_KEY')
-      }
+ 
       return [
         ...oldToDos.slice(0, targetIndex),
         ...oldToDos.slice(targetIndex + 1)
       ]
-    });
-    console.log("what",rawToDos)
-    
+    }); 
   };
-  
+
+
+  // < toDo, Doing, Done 같은 버튼 누르면 해당 구역으로 옮겨주는 기능>
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { name },
     } = event;
-
       setToDos((oldToDos) => {
         const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
         const newToDo = { text, id, category: name as any };
@@ -40,19 +40,12 @@ function ToDo({ text, category, id }: IToDo) {
           newToDo,
           ...oldToDos.slice(targetIndex + 1),
         ]
-        
- 
       });
-      
   };
 
+
   // <실시간으로 배열에 있는 것을 로컬 스토리지에 저장 > 
-  console.log("last",rawToDos)
   useEffect(() => {
-    console.log("real",rawToDos)
-    if(rawToDos === []){
-      console.log("hi")
-    }
     localStorage.setItem("TODOS_KEY", JSON.stringify(rawToDos));
   }, [rawToDos]);
 
