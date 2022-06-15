@@ -20,7 +20,7 @@ function ToDoList() {
       const coco :IToDo[] = JSON.parse(localStorage.getItem("TODOS_KEY")!);
       
       setToDos(coco)
-      console.log(coco)
+   
       
     }
     

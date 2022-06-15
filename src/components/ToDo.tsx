@@ -13,20 +13,17 @@ function ToDo({ text, category, id }: IToDo) {
 
     setToDos((oldToDos) => {
       const targetIndex = oldToDos.findIndex((toDo) => toDo.id === +id);
-   
+      
       if(oldToDos.length === 1){
-         
+        localStorage.removeItem('TODOS_KEY')
       }
-      console.log(targetIndex)
-      console.log(oldToDos)
       return [
         ...oldToDos.slice(0, targetIndex),
         ...oldToDos.slice(targetIndex + 1)
-       
       ]
-  
-
     });
+    console.log("what",rawToDos)
+    
   };
   
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -42,11 +39,20 @@ function ToDo({ text, category, id }: IToDo) {
           ...oldToDos.slice(0, targetIndex),
           newToDo,
           ...oldToDos.slice(targetIndex + 1),
-        ];
+        ]
+        
+ 
       });
-    
+      
   };
+
+  // <실시간으로 배열에 있는 것을 로컬 스토리지에 저장 > 
+  console.log("last",rawToDos)
   useEffect(() => {
+    console.log("real",rawToDos)
+    if(rawToDos === []){
+      console.log("hi")
+    }
     localStorage.setItem("TODOS_KEY", JSON.stringify(rawToDos));
   }, [rawToDos]);
 
