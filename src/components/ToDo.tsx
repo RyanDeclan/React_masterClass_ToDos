@@ -16,12 +16,11 @@ function ToDo({ text, category, id }: IToDo) {
 
     setToDos((oldToDos) => {
       const targetIndex = oldToDos.findIndex((toDo) => toDo.id === +id);
-      
+      const toDoList = [...oldToDos];
+      toDoList.splice(targetIndex, 1)
  
-      return [
-        ...oldToDos.slice(0, targetIndex),
-        ...oldToDos.slice(targetIndex + 1)
-      ]
+      return toDoList
+      
     }); 
   };
 
@@ -45,9 +44,9 @@ function ToDo({ text, category, id }: IToDo) {
 
 
   // <실시간으로 배열에 있는 것을 로컬 스토리지에 저장 > 
-  useEffect(() => {
-    localStorage.setItem("TODOS_KEY", JSON.stringify(rawToDos));
-  }, [rawToDos]);
+  // useEffect(() => {
+  //   localStorage.setItem("TODOS_KEY", JSON.stringify(rawToDos));
+  // }, [rawToDos]);
 
   return (
     <li>
